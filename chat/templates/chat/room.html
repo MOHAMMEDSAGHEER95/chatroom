@@ -5,10 +5,32 @@
     <meta charset="utf-8"/>
     <title>Chat Room</title>
 </head>
+<style>
+    .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+    .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+</style>
 <body>
+{{request.session.session_key}}
     <p id="chat-log" cols="100" rows="20">
         {% for key,value in all_messages.items %}
+        <div class="tooltip">
+        <span class="tooltiptext">{{key}}</span>
         {{value}} <br>
+        </div>
 
         {% endfor %}
     </p><br>

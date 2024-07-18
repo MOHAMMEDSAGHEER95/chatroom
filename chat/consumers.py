@@ -1,5 +1,6 @@
 # chat/consumers.py
 import json
+import time
 from datetime import datetime
 
 from channels.generic.websocket import WebsocketConsumer
@@ -8,8 +9,11 @@ from django.core.cache import cache
 
 
 class ChatConsumer(WebsocketConsumer):
+    session = ''
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
+        self.session = self.scope['session'].get('username', 'default_value')
+        print("heree......")
         self.room_group_name = f"chat_{self.room_name}"
 
         # Join room group
@@ -29,7 +33,7 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
         all_messages = cache.get(f'{self.room_name}-chat-messages', {})
-        all_messages.update({datetime.now(): message})
+        all_messages.update({time.time(): [self.session, message]})
         cache.set(f'{self.room_name}-chat-messages', all_messages, 300)
 
         # Send message to room group
@@ -42,5 +46,5 @@ class ChatConsumer(WebsocketConsumer):
         message = event["message"]
 
         # Send message to WebSocket
-        self.send(text_data=json.dumps({"message": message}))
+        self.send(text_data=json.dumps({"message": message, "session": self.session}))
 
