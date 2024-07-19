@@ -354,7 +354,7 @@
                             {% if value.0 != request.session.session_key %}
                             <li class="clearfix">
                                 <div class="message-data text-right">
-                                    <span class="message-data-time">{{key}}</span>
+                                    <span class="message-data-time">{{value.2}}</span>
                                     <img alt="avatar" src="https://bootdey.com/img/Content/avatar/avatar7.png">
                                 </div>
                                 <div class="message other-message float-right"> {{value.1}}
@@ -363,7 +363,7 @@
                             {% else %}
                             <li class="clearfix">
                                 <div class="message-data">
-                                    <span class="message-data-time">{{key}}</span>
+                                    <span class="message-data-time">{{value.2}}</span>
                                 </div>
                                 <div class="message my-message">{{value.1}}
                                 </div>
@@ -444,7 +444,7 @@
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
         chatSocket.send(JSON.stringify({
-            'message': message
+            'message': message, 'session': session
         }));
         messageInputDom.value = '';
     };
