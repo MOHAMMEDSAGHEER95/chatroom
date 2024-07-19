@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chatroom | Chat Room</title>
+    <title>Chatroom | Boot Up</title>
 </head>
 <style>
 body {
@@ -147,11 +147,13 @@ body {
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
 <div class="container">
-    <form>
-    <p>Create or Join a Room</p>
-    <input type="text" id="room-name-input" placeholder="Room name" name="username"><br>
-    <input type="button" id="room-name-submit" value="Join Room"><br>
-        </form>
+  <form action="/chat/add-username/" method="post">
+    {% csrf_token %}
+    <p>Welcome</p>
+    <input type="text" placeholder="Username" name="username"><br>
+    <input type="hidden" name="room_name" value="{{room_name}}">
+    <input type="submit" value="Join Chat"><br>
+  </form>
 
   <div class="drops">
     <div class="drop drop-1"></div>
@@ -163,20 +165,4 @@ body {
 </div>
 
 </body>
-<script>
-        document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
-
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
-    </script>
 </html>
-
-
-
