@@ -360,13 +360,10 @@
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
     const session = JSON.parse(document.getElementById('session').textContent);
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 
     const chatSocket = new WebSocket(
-        'ws://'
-        + window.location.host
-        + '/ws/chat/'
-        + roomName
-        + '/'
+        protocol + '//' + window.location.host + '/ws/chat/' + roomName + '/'
     );
 
     chatSocket.onmessage = function(e) {
